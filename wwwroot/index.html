@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axios Cookies Auth</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>Axios Authentication with Cookies</h1>
+
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+<button onclick="getUserData()">Get User Data</button>
+
+<div id="output"></div>
+
+<script>
+    // Set Axios to include credentials (cookies)
+    axios.defaults.withCredentials = true;
+    const API_BASE = 's/api/auth';
+
+    function register() {
+        axios.post(`${API_BASE}/register`, {
+            email: 'newuser@example.com',
+            password: 'password123',
+            passwordRepeat: 'password123'
+        }).then(response => {
+            document.getElementById('output').innerText = 'Registration successful';
+        }).catch(error => {
+            document.getElementById('output').innerText = 'Registration failed: ' + error.response.data;
+        });
+    }
+
+    function login() {
+        axios.post(`${API_BASE}/login/cookies`, {
+            email: 'newuser@example.com',
+            password: 'password123'
+        }).then(response => {
+            document.getElementById('output').innerText = 'Login successful';
+        }).catch(error => {
+            document.getElementById('output').innerText = 'Login failed: ' + error.response.data;
+        });
+    }
+
+    function getUserData() {
+        axios.get(`${API_BASE}/me`)
+            .then(response => {
+                document.getElementById('output').innerText = 'User Data: ' + JSON.stringify(response.data);
+            })
+            .catch(error => {
+                document.getElementById('output').innerText = 'Error fetching user data: ' + error.response.data;
+            });
+    }
+</script>
+</body>
+</html>
